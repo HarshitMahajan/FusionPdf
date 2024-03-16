@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog, messagebox, Listbox, Scrollbar, END
-from PyPDF2 import PdfFileReader, PdfFileWriter
+from PyPDF2 import PdfReader, PdfWriter
 
 class PDFMergerApp:
     def __init__(self, root):
@@ -78,11 +78,11 @@ class PDFMergerApp:
             messagebox.showerror("Error", "No PDF files selected!")
             return
 
-        merged_pdf = PdfFileWriter()
+        merged_pdf = PdfWriter()
         for pdf_file in self.pdf_files:
-            pdf_reader = PdfFileReader(open(pdf_file, "rb"))
-            for page in range(pdf_reader.getNumPages()):
-                merged_pdf.addPage(pdf_reader.getPage(page))
+            pdf_reader = PdfReader(open(pdf_file, "rb"))
+            for page in range(len(pdf_reader.pages)):
+                merged_pdf.add_page(pdf_reader.pages[page])
 
         output_filename = filedialog.asksaveasfilename(defaultextension=".pdf", filetypes=[("PDF files", "*.pdf")])
         if output_filename:
